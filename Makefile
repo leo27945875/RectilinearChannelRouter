@@ -31,7 +31,7 @@ plot:
 
 cm:
 	git add .
-	git commit -m ${COMMIT_MSG}
+	git commit -m "${COMMIT_MSG}"
 
 push:
 	git push origin master
