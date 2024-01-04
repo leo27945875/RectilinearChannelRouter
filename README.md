@@ -11,3 +11,4 @@
 ![Result](./figures/plot1.png)
 ![Result](./figures/plot2.png)
 ![Result](./figures/plot3.png)
+![Result](./figures/plot4.png)

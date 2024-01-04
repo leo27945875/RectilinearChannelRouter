@@ -124,10 +124,10 @@ def IsFeasibleTerminals(upperTerminals: list[int], lowerTerminals: list[int]) ->
 
 def Main():
     
-    SAVE_FILE      = "data/input3.in"
-    N_NET          = 40
-    N_BREAK        = 8
-    N_NET_NUM_LIST = [2, 4, 6]
+    SAVE_FILE      = "data/input4.in"
+    N_NET          = 100
+    N_BREAK        = 20
+    N_NET_NUM_LIST = [2, 4, 6, 8]
 
     upperTerminals, lowerTerminals = MakeTerminalLists(N_NET_NUM_LIST, N_BREAK, N_NET)
     while (not IsFeasibleTerminals(upperTerminals, lowerTerminals)):

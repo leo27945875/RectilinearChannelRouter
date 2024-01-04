@@ -78,6 +78,7 @@ def parse_NetList(f):
                 net_data[current_net]['tracks'].append(Track(parts[0], int(parts[1]), int(parts[2])))
 
 def plot(number):
+    plt.figure(figsize=(20, 20))
     for i, track in enumerate(global_data['boundary_list']):
         plt.text(x=-0.3, y=i, s=track.n , va='center', ha='right', color='gray', size=7)
         plt.hlines(y=i, xmin=0, xmax=global_data['max_length'], colors='gray', linestyles=':', lw=1)
