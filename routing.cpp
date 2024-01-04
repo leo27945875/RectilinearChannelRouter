@@ -49,6 +49,10 @@ void RectilinearChannelRouter::readFromFile(const std::string& inputFilename){
         else 
             break;
     }
+    m_orderedUpperEdges.front()->isLeftMost = true;
+    m_orderedUpperEdges.back()->isRightMost = true;
+    m_orderedLowerEdges.front()->isLeftMost = true;
+    m_orderedLowerEdges.back()->isRightMost = true;
     
     // Read nets:
     std::unordered_map<int, std::pair<int, Trunk*>> terminalHeadMap;
@@ -132,6 +136,8 @@ void RectilinearChannelRouter::readFromFile(const std::string& inputFilename){
             m_lowerEdges[u]->addFeaibleRange(feasible);
 
     file.close();
+    END_LINE
+    LOG("Finish reading.")
 }
 
 void RectilinearChannelRouter::outputToFile(const std::string& outputFilename){
@@ -149,13 +155,15 @@ void RectilinearChannelRouter::outputToFile(const std::string& outputFilename){
             file << "Dogleg " << doglegs[i] << std::endl;
     }
     file.close();
+    END_LINE
+    LOG("Done.")
 }
 
 void RectilinearChannelRouter::run(){
     for (int u = m_upperEdges.size() - 1; u > 0; u--)
-        routeTrack(m_positiveVCG, m_negativeVCG, m_upperEdges[u]->feasible, m_upperEdges[u - 1]->track);
+        routeTrack(m_positiveVCG, m_negativeVCG, m_upperEdges[u], m_upperEdges[u - 1]->track);
     for (int l = m_lowerEdges.size() - 1; l > 0; l--)
-        routeTrack(m_negativeVCG, m_positiveVCG, m_lowerEdges[l]->feasible, m_lowerEdges[l - 1]->track);
+        routeTrack(m_negativeVCG, m_positiveVCG, m_lowerEdges[l], m_lowerEdges[l - 1]->track);
     
     while (!m_positiveVCG.empty()){
         routeTrack(m_positiveVCG, m_negativeVCG, new Track("C", m_additionTrack));
@@ -163,7 +171,7 @@ void RectilinearChannelRouter::run(){
     }
 }
 
-void RectilinearChannelRouter::routeTrack(DirectedGraph& positiveVCG, DirectedGraph& negativeVCG, const std::vector<Range>& feasibleRange, const Track* track){
+void RectilinearChannelRouter::routeTrack(DirectedGraph& positiveVCG, DirectedGraph& negativeVCG, const Edge* edge, const Track* track){
     Trunk             *trunk, *prevTrunk;
     MinQueue<TrunkPtr> pq;
 
@@ -175,7 +183,7 @@ void RectilinearChannelRouter::routeTrack(DirectedGraph& positiveVCG, DirectedGr
         pq.pop();
         if (!(negativeVCG[trunk].empty() &&
               checkIsFeasibleStart(trunk, prevTrunk) &&
-              checkIsInRange(trunk->start, trunk->end, feasibleRange))) 
+              edge->checkIsInRange(trunk->start, trunk->end))) 
             continue;
 
         trunk->track = track;

@@ -82,6 +82,7 @@ public:
     const Track*                    track;
     std::vector<Range>              feasible;
     std::unordered_map<Trunk*, int> terminalCountMap;
+    bool                            isRightMost = false, isLeftMost = false;
 
 public:
     Edge(int min, int max, const Track* track)
@@ -94,6 +95,7 @@ public:
 
 public:
     void addFeaibleRange(const Range& newRange);
+    bool checkIsInRange (int start, int end) const;
 };
 
 

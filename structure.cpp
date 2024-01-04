@@ -16,3 +16,21 @@
 
         feasible = std::move(newFeasible);
  }
+
+ bool Edge::checkIsInRange(int start, int end) const {
+    int i = 1, n = feasible.size();
+    for (const Range& range : feasible){
+        int min = range.min;
+        int max = range.max;
+        if (i == 1 && !isLeftMost) 
+            min++;
+        if (i == n && !isRightMost)
+            max--;
+
+        if (start < min || end > max)
+            return false;
+
+        i++;
+    }
+    return true;
+ }

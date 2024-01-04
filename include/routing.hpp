@@ -20,8 +20,8 @@ public:
     std::vector<Edge*>  m_upperEdges;
     std::vector<Edge*>  m_lowerEdges;
 
-    std::list<Edge*>    m_orderedUpperEdges;
-    std::list<Edge*>    m_orderedLowerEdges;
+    std::vector<Edge*>  m_orderedUpperEdges;
+    std::vector<Edge*>  m_orderedLowerEdges;
 
     DirectedGraph       m_positiveVCG;
     DirectedGraph       m_negativeVCG;
@@ -45,7 +45,7 @@ public:
 
 private:
     void routeTrack(DirectedGraph& positiveVCG, DirectedGraph& negativeVCG, const Track* track);
-    void routeTrack(DirectedGraph& positiveVCG, DirectedGraph& negativeVCG, const std::vector<Range>& feasibleRange, const Track* track);
+    void routeTrack(DirectedGraph& positiveVCG, DirectedGraph& negativeVCG, const Edge* edge, const Track* track);
 
     void removeTrunkFromGraphs (DirectedGraph& positiveVCG, DirectedGraph& negativeVCG, Trunk* trunk);
     void buildMinQueueFromGraph(const DirectedGraph& graph, MinQueue<TrunkPtr>& pq);

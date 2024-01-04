@@ -1,0 +1,89 @@
+Channel density: 14
+Net 1
+C3 4 9
+C1 9 11
+C1 11 14
+Dogleg 9
+Dogleg 11
+Net 2
+C14 2 5
+C14 5 8
+C11 8 22
+C11 22 25
+C12 25 29
+Dogleg 5
+Dogleg 8
+Dogleg 22
+Dogleg 25
+Net 3
+C10 6 10
+C14 10 13
+C14 13 14
+C14 14 15
+C14 15 22
+Dogleg 10
+Dogleg 13
+Dogleg 14
+Dogleg 15
+Net 4
+C12 0 19
+Net 5
+C8 1 6
+C8 6 17
+C10 17 23
+Dogleg 6
+Dogleg 17
+Net 6
+C5 12 17
+C7 17 18
+C9 18 21
+C9 21 23
+C9 23 25
+Dogleg 17
+Dogleg 18
+Dogleg 21
+Dogleg 23
+Net 7
+C13 2 18
+C13 18 19
+C13 19 20
+C13 20 28
+T0 28 29
+Dogleg 18
+Dogleg 19
+Dogleg 20
+Dogleg 28
+Net 8
+B0 0 3
+C6 3 7
+C6 7 9
+C4 9 12
+C4 12 26
+Dogleg 3
+Dogleg 7
+Dogleg 9
+Dogleg 12
+Net 9
+C9 1 10
+Net 10
+C11 3 7
+C7 7 8
+C7 8 16
+T0 16 21
+T0 21 27
+Dogleg 7
+Dogleg 8
+Dogleg 16
+Dogleg 21
+Net 11
+C2 4 11
+C6 11 16
+B1 16 28
+Dogleg 11
+Dogleg 16
+Net 12
+C12 20 24
+C14 24 26
+C14 26 27
+Dogleg 24
+Dogleg 26

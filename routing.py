@@ -72,7 +72,7 @@ def parse_NetList(f):
                 global_data['net_list'].append(Track(parts[0], int(parts[1]), int(parts[2])))
                 net_data[current_net]['tracks'].append(Track(parts[0], int(parts[1]), int(parts[2])))
 
-def plot():
+def plot(number):
     for i, track in enumerate(global_data['boundary_list']):
         plt.text(x=-0.3, y=i, s=track.n , va='center', ha='right', color='gray')
         plt.hlines(y=i, xmin=0, xmax=10, colors='gray', linestyles=':', lw=1)
@@ -129,7 +129,7 @@ def plot():
 
     figures_dir = os.path.join(os.path.dirname(__file__), 'figures')
     os.makedirs(figures_dir, exist_ok=True)
-    plt.savefig(os.path.join(figures_dir, 'plot.png'))
+    plt.savefig(os.path.join(figures_dir, f'plot{number}.png'))
 
 def sort_tracks(track):
     prefix = track.n[0]
@@ -144,12 +144,13 @@ def sort_tracks(track):
 
 
 def main():
-    if len(sys.argv) != 3:
-        print("Usage: python3 routing.py input.in output.out")
+    if len(sys.argv) != 4:
+        print("Usage: python3 routing.py input<number>.in output<number>.out <number>")
         sys.exit(1)
 
     BoundaryList = sys.argv[1]
     NetList = sys.argv[2]
+    Number = sys.argv[3]
 
     with open(BoundaryList, 'r') as f:
         parse_BoundaryList(f)
@@ -158,7 +159,7 @@ def main():
         parse_NetList(f)
     
     global_data['boundary_list'].sort(key=sort_tracks)
-    plot()
+    plot(Number)
 
     print("Routing Done!")
 

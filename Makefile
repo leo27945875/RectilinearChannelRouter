@@ -22,12 +22,13 @@ clean:
 
 test:
 	@./${LAB} data/input${FILE_NUM}.in data/output${FILE_NUM}.out
+	make plot
 
 check:
 	@./SolutionChecker data/input${FILE_NUM}.in data/output${FILE_NUM}.out
 
 plot:
-	@python3 routing.py data/input${FILE_NUM}.in data/output${FILE_NUM}.out
+	python3 routing.py data/input${FILE_NUM}.in data/output${FILE_NUM}.out ${FILE_NUM}
 
 cm:
 	git add .
@@ -35,3 +36,6 @@ cm:
 
 push:
 	git push origin master
+
+gen:
+	@python3 generator.py
