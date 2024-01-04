@@ -17,6 +17,7 @@ public:
 public:
     int                 m_additionTrack = 0;
     std::vector<Trunk*> m_trunks;
+    std::vector<Track*> m_tracks;
     std::vector<Edge*>  m_upperEdges;
     std::vector<Edge*>  m_lowerEdges;
 
@@ -30,6 +31,7 @@ public:
 
 public:
     RectilinearChannelRouter() = default;
+    ~RectilinearChannelRouter();
 
 public:
     void readFromFile(const std::string& inputFilename);
@@ -53,6 +55,7 @@ private:
     bool checkIsInRange        (int start, int end, const std::vector<Range>& range);
     
     Trunk* makeNewTrunk              (int number, int start, int end = -1);
+    Track* makeNewTrack              (const std::string& type, int number);
     void   removeUnusedTrunkFromGraph(DirectedGraph& graph);
     void   padGraph                  (DirectedGraph& graph);
     void   freeUnusedTrunk           (std::unordered_map<int, std::pair<int, Trunk*>>& terminalHeadMap);

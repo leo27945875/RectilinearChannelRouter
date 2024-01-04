@@ -9,6 +9,13 @@
 #include "include/utils.hpp"
 
 
+RectilinearChannelRouter::~RectilinearChannelRouter(){
+    for (Trunk* trunk : m_trunks) delete trunk;
+    for (Track* track : m_tracks) delete track;
+    for (Edge* edge : m_upperEdges) delete edge;
+    for (Edge* edge : m_lowerEdges) delete edge;
+}
+
 void RectilinearChannelRouter::readFromFile(const std::string& inputFilename){
     std::ifstream file(inputFilename);
     std::string   line;
@@ -31,7 +38,7 @@ void RectilinearChannelRouter::readFromFile(const std::string& inputFilename){
                 maxUpperEdgeIdx = idx;
                 m_upperEdges.resize(idx + 1);
             }
-            edge = new Edge(start, end, new Track(edgeName.substr(0, 1), idx));
+            edge = new Edge(start, end, makeNewTrack(edgeName.substr(0, 1), idx));
             m_upperEdges[idx] = edge;
             m_orderedUpperEdges.push_back(edge);
         }
@@ -42,7 +49,7 @@ void RectilinearChannelRouter::readFromFile(const std::string& inputFilename){
                 maxLowerEdgeIdx = idx;
                 m_lowerEdges.resize(idx + 1);
             }
-            edge = new Edge(start, end, new Track(edgeName.substr(0, 1), idx));
+            edge = new Edge(start, end, makeNewTrack(edgeName.substr(0, 1), idx));
             m_lowerEdges[idx] = edge;
             m_orderedLowerEdges.push_back(edge);
         }
@@ -166,7 +173,7 @@ void RectilinearChannelRouter::run(){
         routeTrack(m_negativeVCG, m_positiveVCG, m_lowerEdges[l], m_lowerEdges[l - 1]->track);
     
     while (!m_positiveVCG.empty()){
-        routeTrack(m_positiveVCG, m_negativeVCG, new Track("C", m_additionTrack));
+        routeTrack(m_positiveVCG, m_negativeVCG, makeNewTrack("C", m_additionTrack));
         m_additionTrack++;
     }
 }
@@ -238,12 +245,19 @@ bool RectilinearChannelRouter::checkIsInRange(int start, int end, const std::vec
     return true;
 }
 
-/************************************************* Some helper methods for reading data *************************************************/
 Trunk* RectilinearChannelRouter::makeNewTrunk(int number, int start, int end){
     Trunk* trunk = new Trunk(number, start, end);
     m_trunkNumberMap[number].push_back(trunk);
     return trunk;
 }
+
+Track* RectilinearChannelRouter::makeNewTrack(const std::string& type, int number){
+    Track* track = new Track(type, number);
+    m_tracks.push_back(track);
+    return track;
+}
+
+/************************************************* Some helper methods for reading data *************************************************/
 
 void RectilinearChannelRouter::padGraph(DirectedGraph& graph){
     for (Trunk* trunk : m_trunks)

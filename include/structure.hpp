@@ -91,8 +91,6 @@ public:
         feasible.push_back({min, max}); 
     }
 
-    ~Edge() { if (track) delete track; }
-
 public:
     void addFeaibleRange(const Range& newRange);
     bool checkIsInRange (int start, int end) const;
