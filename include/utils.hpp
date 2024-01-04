@@ -3,7 +3,7 @@
 #include <iostream>
 #include "structure.hpp"
 
-#define DEBUG 1
+#define DEBUG 0
 
 #if DEBUG == 1
     #define LOG(x)                 std::cout << x << std::endl;
