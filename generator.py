@@ -158,14 +158,6 @@ def Main():
         f.write(" ".join([str(i) for i in lowerTerminals]))
 
 
-def Test():
-
-    us = [int(i) for i in "1 2 3 0 4 3 4 0 5 5 5 4".split()]
-    ls = [int(i) for i in "6 5 6 7 1 0 7 7 8 2 8 2".split()]
-    IsFeasibleTerminals(us, ls)
-
-
 if __name__ == "__main__":
 
     Main()
-    # Test()
