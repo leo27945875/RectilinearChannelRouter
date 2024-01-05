@@ -38,10 +38,11 @@ void RectilinearChannelRouter::readFromFile(const std::string& inputFilename){
                 maxUpperEdgeIdx = idx;
                 m_upperEdges.resize(idx + 1);
             }
-            edge = new Edge(start, end, makeNewTrack(edgeName.substr(0, 1), idx));
-            m_orderedUpperEdges.push_back(edge);
-            if (m_upperEdges[idx] == nullptr)
+            if (m_upperEdges[idx] == nullptr){
+                edge = new Edge(start, end, makeNewTrack(edgeName.substr(0, 1), idx));
+                m_orderedUpperEdges.push_back(edge);
                 m_upperEdges[idx] = edge;
+            }
             else
                 m_upperEdges[idx]->addFeaibleRange({start, end});
         }
@@ -57,9 +58,8 @@ void RectilinearChannelRouter::readFromFile(const std::string& inputFilename){
                 m_orderedLowerEdges.push_back(edge);
                 m_lowerEdges[idx] = edge;
             }
-            else {
+            else
                 m_lowerEdges[idx]->addFeaibleRange({start, end});
-            }
         }
         else 
             break;
