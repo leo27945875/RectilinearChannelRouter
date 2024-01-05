@@ -77,10 +77,10 @@ def parse_NetList(f):
                 global_data['net_list'].append(Track(parts[0], int(parts[1]), int(parts[2])))
                 net_data[current_net]['tracks'].append(Track(parts[0], int(parts[1]), int(parts[2])))
 
-def plot(number, size):
+def plot(number, h, w):
     
-    if size is not None:
-        plt.figure(figsize=(size, size))
+    if h is not None and w is not None:
+        plt.figure(figsize=(h, w))
     
     y_cord = 0
     for i, track in enumerate(global_data['boundary_list']):
@@ -160,13 +160,14 @@ def sort_tracks(track):
 
 def main():
     if len(sys.argv) < 4:
-        print("Usage: python3 routing.py input<number>.in output<number>.out <number> [<size>]")
+        print("Usage: python3 routing.py input<number>.in output<number>.out <number> [<h> <w>]")
         sys.exit(1)
 
     BoundaryList = sys.argv[1]
     NetList      = sys.argv[2]
     Number       = int(sys.argv[3])
-    Size         = int(sys.argv[4]) if len(sys.argv) > 4 else None
+    SizeH        = int(sys.argv[4]) if len(sys.argv) > 4 else None
+    SizeW        = int(sys.argv[5]) if len(sys.argv) > 4 else None
 
     with open(BoundaryList, 'r') as f:
         parse_BoundaryList(f)
@@ -175,7 +176,7 @@ def main():
         parse_NetList(f)
     
     global_data['boundary_list'].sort(key=sort_tracks)
-    plot(Number, Size)
+    plot(Number, SizeH, SizeW)
 
     print("Routing Done!")
 
