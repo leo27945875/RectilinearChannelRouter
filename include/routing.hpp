@@ -53,7 +53,7 @@ private:
     void buildMinQueueFromGraph(const DirectedGraph& graph, MinQueue<TrunkPtr>& pq);
     bool checkIsFeasibleStart  (const Trunk* currTrunk, const Trunk* prevTrunk);
     
-    Trunk* makeNewTrunk              (int number, int start, int end = -1);
+    Trunk* makeNewTrunk              (int number, int start, int end = -1, bool isAddToTrunkVector = true);
     Track* makeNewTrack              (const std::string& type, int number);
     void   removeUnusedTrunkFromGraph(DirectedGraph& graph);
     void   padGraph                  (DirectedGraph& graph);

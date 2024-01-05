@@ -96,7 +96,7 @@ void RectilinearChannelRouter::readFromFile(const std::string& inputFilename){
             }
             terminalHeadMap[terminalUpper] = {
                 nowPosition, 
-                (upperTrunk = makeNewTrunk(terminalUpper, nowPosition, -1))
+                (upperTrunk = makeNewTrunk(terminalUpper, nowPosition, -1, false))
             };
             (*nowUpperEdge)->terminalCountMap[upperTrunk]++;
         }
@@ -109,7 +109,7 @@ void RectilinearChannelRouter::readFromFile(const std::string& inputFilename){
             }
             terminalHeadMap[terminalLower] = {
                 nowPosition, 
-                (lowerTrunk = makeNewTrunk(terminalLower, nowPosition, -1))
+                (lowerTrunk = makeNewTrunk(terminalLower, nowPosition, -1, false))
             };
             (*nowLowerEdge)->terminalCountMap[lowerTrunk]++;
         }
@@ -246,9 +246,10 @@ bool RectilinearChannelRouter::checkIsFeasibleStart(const Trunk* currTrunk, cons
     return false;
 }
 
-Trunk* RectilinearChannelRouter::makeNewTrunk(int number, int start, int end){
+Trunk* RectilinearChannelRouter::makeNewTrunk(int number, int start, int end, bool isAddToTrunkVector){
     Trunk* trunk = new Trunk(number, start, end);
     m_trunkNumberMap[number].push_back(trunk);
+    if (isAddToTrunkVector) m_trunks.push_back(trunk);
     return trunk;
 }
 
