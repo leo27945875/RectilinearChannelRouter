@@ -259,7 +259,6 @@ Track* RectilinearChannelRouter::makeNewTrack(const std::string& type, int numbe
 }
 
 /************************************************* Some helper methods for reading data *************************************************/
-
 void RectilinearChannelRouter::padGraph(DirectedGraph& graph){
     for (Trunk* trunk : m_trunks)
         graph[trunk];
