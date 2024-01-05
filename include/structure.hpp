@@ -78,7 +78,7 @@ public:
 
 class Edge {
 public:
-    int                             min, max;
+    int                             min = 0, max = 0;
     const Track*                    track;
     std::vector<Range>              feasible;
     std::unordered_map<Trunk*, int> terminalCountMap;
@@ -92,7 +92,7 @@ public:
     }
 
 public:
-    void addFeaibleRange(const Range& newRange);
+    void addFeaibleRange(Range newRange);
     bool checkIsInRange (int start, int end) const;
 };
 

@@ -1,5 +1,6 @@
 FILE_NUM   = $(i)
 COMMIT_MSG = ${m}
+FIGSIZE    = ${s}
 CPP_FILES  = ${wildcard *.cpp}
 HDR_FILES  = ${wildcard include/*.hpp}
 LAB        = Lab4
@@ -28,7 +29,7 @@ check:
 	@./SolutionChecker data/input${FILE_NUM}.in data/output${FILE_NUM}.out
 
 plot:
-	python3 routing.py data/input${FILE_NUM}.in data/output${FILE_NUM}.out ${FILE_NUM}
+	python3 routing.py data/input${FILE_NUM}.in data/output${FILE_NUM}.out ${FILE_NUM} ${FIGSIZE}
 
 cm:
 	git add .

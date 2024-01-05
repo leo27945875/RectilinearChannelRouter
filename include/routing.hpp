@@ -52,7 +52,6 @@ private:
     void removeTrunkFromGraphs (DirectedGraph& positiveVCG, DirectedGraph& negativeVCG, Trunk* trunk);
     void buildMinQueueFromGraph(const DirectedGraph& graph, MinQueue<TrunkPtr>& pq);
     bool checkIsFeasibleStart  (const Trunk* currTrunk, const Trunk* prevTrunk);
-    bool checkIsInRange        (int start, int end, const std::vector<Range>& range);
     
     Trunk* makeNewTrunk              (int number, int start, int end = -1);
     Track* makeNewTrack              (const std::string& type, int number);

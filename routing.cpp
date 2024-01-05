@@ -39,8 +39,11 @@ void RectilinearChannelRouter::readFromFile(const std::string& inputFilename){
                 m_upperEdges.resize(idx + 1);
             }
             edge = new Edge(start, end, makeNewTrack(edgeName.substr(0, 1), idx));
-            m_upperEdges[idx] = edge;
             m_orderedUpperEdges.push_back(edge);
+            if (m_upperEdges[idx] == nullptr)
+                m_upperEdges[idx] = edge;
+            else
+                m_upperEdges[idx]->addFeaibleRange({start, end});
         }
         else if (line[0] == 'B'){
             ss >> edgeName >> start >> end;
@@ -49,9 +52,14 @@ void RectilinearChannelRouter::readFromFile(const std::string& inputFilename){
                 maxLowerEdgeIdx = idx;
                 m_lowerEdges.resize(idx + 1);
             }
-            edge = new Edge(start, end, makeNewTrack(edgeName.substr(0, 1), idx));
-            m_lowerEdges[idx] = edge;
-            m_orderedLowerEdges.push_back(edge);
+            if (m_lowerEdges[idx] == nullptr){
+                edge = new Edge(start, end, makeNewTrack(edgeName.substr(0, 1), idx));
+                m_orderedLowerEdges.push_back(edge);
+                m_lowerEdges[idx] = edge;
+            }
+            else {
+                m_lowerEdges[idx]->addFeaibleRange({start, end});
+            }
         }
         else 
             break;
@@ -138,9 +146,9 @@ void RectilinearChannelRouter::readFromFile(const std::string& inputFilename){
     for (int u = m_upperEdges.size() - 2; u >= 0; u--)
         for (const Range& feasible : m_upperEdges[u + 1]->feasible)
             m_upperEdges[u]->addFeaibleRange(feasible);
-    for (int u = m_lowerEdges.size() - 2; u >= 0; u--)
-        for (const Range& feasible : m_lowerEdges[u + 1]->feasible)
-            m_lowerEdges[u]->addFeaibleRange(feasible);
+    for (int l = m_lowerEdges.size() - 2; l >= 0; l--)
+        for (const Range& feasible : m_lowerEdges[l + 1]->feasible)
+            m_lowerEdges[l]->addFeaibleRange(feasible);
 
     file.close();
     END_LINE
@@ -238,13 +246,6 @@ bool RectilinearChannelRouter::checkIsFeasibleStart(const Trunk* currTrunk, cons
     return false;
 }
 
-bool RectilinearChannelRouter::checkIsInRange(int start, int end, const std::vector<Range>& range){
-    for (const Range& feasible : range)
-        if (start < feasible.min || end > feasible.max)
-            return false;
-    return true;
-}
-
 Trunk* RectilinearChannelRouter::makeNewTrunk(int number, int start, int end){
     Trunk* trunk = new Trunk(number, start, end);
     m_trunkNumberMap[number].push_back(trunk);
@@ -334,6 +335,7 @@ void RectilinearChannelRouter::printTrackInfo(){
     LOGKV(nLower)
     for (int u = nUpper - 1; u >= 0; u--){
         const Edge* edge = m_upperEdges[u];
+        if (edge == nullptr) continue;
         std::cout << "[" << edge->track->getName() << "] : Range = (" << edge->min << ", " << edge->max << "), Feasible = [";
         for (const Range& feasible : edge->feasible)
             std::cout << "(" << feasible.min << ", " << feasible.max << ") ";
@@ -343,6 +345,7 @@ void RectilinearChannelRouter::printTrackInfo(){
     }
     for (int l = nLower - 1; l >= 0; l--){
         const Edge* edge = m_lowerEdges[l];
+        if (edge == nullptr) continue;
         std::cout << "[" << edge->track->getName() << "] : Range = (" << edge->min << ", " << edge->max << "), Feasible = [";
         for (const Range& feasible : edge->feasible)
             std::cout << "(" << feasible.min << ", " << feasible.max << ") ";
