@@ -40,11 +40,13 @@ void RectilinearChannelRouter::readFromFile(const std::string& inputFilename){
             }
             if (m_upperEdges[idx] == nullptr){
                 edge = new Edge(start, end, makeNewTrack(edgeName.substr(0, 1), idx));
-                m_orderedUpperEdges.push_back(edge);
                 m_upperEdges[idx] = edge;
             }
-            else
-                m_upperEdges[idx]->addFeaibleRange({start, end});
+            else {
+                edge = m_upperEdges[idx];
+                edge->addFeaibleRange({start, end});
+            }
+            m_orderedUpperEdges.push_back(edge);
         }
         else if (line[0] == 'B'){
             ss >> edgeName >> start >> end;
@@ -55,11 +57,13 @@ void RectilinearChannelRouter::readFromFile(const std::string& inputFilename){
             }
             if (m_lowerEdges[idx] == nullptr){
                 edge = new Edge(start, end, makeNewTrack(edgeName.substr(0, 1), idx));
-                m_orderedLowerEdges.push_back(edge);
                 m_lowerEdges[idx] = edge;
             }
-            else
-                m_lowerEdges[idx]->addFeaibleRange({start, end});
+            else {
+                edge = m_lowerEdges[idx];
+                edge->addFeaibleRange({start, end});
+            }
+            m_orderedLowerEdges.push_back(edge);
         }
         else 
             break;
@@ -77,8 +81,6 @@ void RectilinearChannelRouter::readFromFile(const std::string& inputFilename){
     ssLower << line;
 
     int terminalUpper, terminalLower, nowPosition = 0;
-    auto nowUpperEdge = m_orderedUpperEdges.begin();
-    auto nowLowerEdge = m_orderedLowerEdges.begin();
     while (ssUpper >> terminalUpper){
         ssLower >> terminalLower;
         bool isUpperTerminal  = terminalUpper != 0;
@@ -127,10 +129,7 @@ void RectilinearChannelRouter::readFromFile(const std::string& inputFilename){
                 m_negativeVCG[lowerTrunkLast].insert(upperTrunkLast);
             }
         }
-
         nowPosition++;
-        if (nowPosition > (*nowUpperEdge)->max) nowUpperEdge++;
-        if (nowPosition > (*nowLowerEdge)->max) nowLowerEdge++;
     }
 
     // Delete unused trunk objects:
@@ -367,21 +366,23 @@ void RectilinearChannelRouter::printTrackInfo(){
     for (int u = nUpper - 1; u >= 0; u--){
         const Edge* edge = m_upperEdges[u];
         if (edge == nullptr) continue;
-        std::cout << "[" << edge->track->getName() << "] : Range = (" << edge->min << ", " << edge->max << "), Feasible = [";
+        std::cout << "[" << edge->track->getName() << "] : Feasible = [";
         for (const Range& feasible : edge->feasible)
             std::cout << "(" << feasible.min << ", " << feasible.max << ") ";
         
         std::cout << "\b]";
+        std::cout << ", L = " << edge->isLeftMost << ", R = " << edge->isRightMost;
         END_LINE
     }
     for (int l = nLower - 1; l >= 0; l--){
         const Edge* edge = m_lowerEdges[l];
         if (edge == nullptr) continue;
-        std::cout << "[" << edge->track->getName() << "] : Range = (" << edge->min << ", " << edge->max << "), Feasible = [";
+        std::cout << "[" << edge->track->getName() << "] : Feasible = [";
         for (const Range& feasible : edge->feasible)
             std::cout << "(" << feasible.min << ", " << feasible.max << ") ";
         
         std::cout << "\b]";
+        std::cout << ", L = " << edge->isLeftMost << ", R = " << edge->isRightMost;
         END_LINE
     }
 }

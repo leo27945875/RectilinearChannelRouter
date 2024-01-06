@@ -2,23 +2,37 @@ import random
 from collections import defaultdict
 
 
-def RandomIdxs(n: int):
-    idxs = list(range(n))
+def RandomIdxs(n: int, sameRate: float = 1.):
+    a = round(sameRate * n)
+    idxs = list(range(a))
+    for _ in range(n - a):
+        idxs.append(random.randint(0, a))
+
     random.shuffle(idxs)
     return idxs
 
 
-def MakeEdge(terminals: list[int], name: str) -> list[str]:
+def MakeEdge(terminals: list[int], name: str, sameRate: float = 1.) -> list[str]:
     nZeros = terminals.count(0)
-    idxs = RandomIdxs(nZeros + 1)
-    edges, idx, head = [], 0, 0
+    idxs = RandomIdxs(nZeros + 1, sameRate)
+    edges, idx, head, lastIdx = [], 0, 0, -1
     for i, t in enumerate(terminals):
         if t == 0:
-            edges.append(f"{name}{idxs[idx]} {head} {i}")
+            if idxs[idx] != lastIdx:
+                lastIdx = idxs[idx]
+                edges.append(f"{name}{lastIdx} {head} {i}")
+            else:
+                edges[-1] = " ".join(edges[-1].split()[:-1] + [str(i)])
+
             head = i
             idx += 1
 
-    edges.append(f"{name}{idxs[idx]} {head} {len(terminals) - 1}")
+    if idxs[idx] != lastIdx:
+        lastIdx = idxs[idx]
+        edges.append(f"{name}{lastIdx} {head} {i}")
+    else:
+        edges[-1] = " ".join(edges[-1].split()[:-1] + [str(i)])
+        
     return edges
     
 
@@ -123,10 +137,11 @@ def IsFeasibleTerminals(upperTerminals: list[int], lowerTerminals: list[int]) ->
 
 def Main():
     
-    SAVE_FILE      = "data/input7.in"
-    N_NET          = 100
-    N_BREAK        = 30
-    N_NET_NUM_LIST = [6, 8, 10, 12, 14, 16]
+    SAVE_FILE      = "data/input9.in"
+    N_NET          = 40
+    N_BREAK        = 10
+    N_NET_NUM_LIST = [2, 4, 6]
+    SAME_EDGE_RATE = 0.3
 
     upperTerminals, lowerTerminals = MakeTerminalLists(N_NET_NUM_LIST, N_BREAK, N_NET)
     while (not IsFeasibleTerminals(upperTerminals, lowerTerminals)):
@@ -138,8 +153,8 @@ def Main():
     print("Lower terminals:")
     print(lowerTerminals)
 
-    upperEdges = MakeEdge(upperTerminals, "T")
-    lowerEdges = MakeEdge(lowerTerminals, "B")
+    upperEdges = MakeEdge(upperTerminals, "T", SAME_EDGE_RATE)
+    lowerEdges = MakeEdge(lowerTerminals, "B", SAME_EDGE_RATE)
     print("")
     print(f"Upper Edges: (len = {len(upperTerminals)})")
     print(upperEdges)

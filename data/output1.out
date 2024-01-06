@@ -19,7 +19,7 @@ Net 6
 B1 25 26
 Net 7
 C4 23 24
-T1 24 26
+T0 24 26
 Dogleg 24
 C1 26 28
 Dogleg 26
@@ -29,7 +29,7 @@ C7 14 25
 Dogleg 14
 Net 9
 C5 14 19
-C2 19 28
+T1 19 28
 Dogleg 19
 Net 10
 C1 10 21
@@ -59,7 +59,7 @@ Net 17
 C9 5 17
 C9 17 20
 Dogleg 17
-C5 20 27
+C2 20 27
 Dogleg 20
 Net 18
 T1 1 5
