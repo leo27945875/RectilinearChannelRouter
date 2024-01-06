@@ -15,3 +15,4 @@
 ![Result](./figures/plot5.png)
 ![Result](./figures/plot6.png)
 ![Result](./figures/plot7.png)
+![Result](./figures/plot8.png)
