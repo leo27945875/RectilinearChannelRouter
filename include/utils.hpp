@@ -13,7 +13,6 @@
     #define LOOP_START(x)          std::cout << "\n\n========================== " << "Loop " << (x) << " ==========================\n";
     #define DDASH_LINE             std::cout << "==============================================================" << std::endl;
     #define DASH_LINE              std::cout << "--------------------------------------------------------------" << std::endl;
-    #define MOVE_INFO(x)           std::cout << "Move " << x->m_number << "  (from: " << (x->m_group + 1) << " to: " << ((!x->m_group) + 1) << ")" << std::endl;
     #define END_LINE               std::cout << std::endl;
     #define AAA                    std::cout << "AAAAAAAAAAAAAAAAAAAA" << std::endl;
     #define BBB                    std::cout << "BBBBBBBBBBBBBBBBBBBB" << std::endl;
@@ -25,7 +24,6 @@
     #define LOOP_START(x) 
     #define DDASH_LINE 
     #define DASH_LINE 
-    #define MOVE_INFO(x) 
     #define END_LINE 
     #define AAA 
     #define BBB 
