@@ -194,8 +194,9 @@ void RectilinearChannelRouter::run(){
         routeTrack(pg, ng, makeNewTrack("C", nAdditionTrackBottomUp));
     }
     
+    trackRecord.reserve(m_trunks.size());
     for (const Trunk* trunk : m_trunks)
-        trackRecord.push_back(trunk->track);
+        trackRecord.emplace_back(trunk->track);
 
     pg = m_positiveVCG; ng = m_negativeVCG;
     while (!pg.empty()){
