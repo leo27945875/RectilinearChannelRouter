@@ -13,3 +13,5 @@
 ![Result](./figures/plot3.png)
 ![Result](./figures/plot4.png)
 ![Result](./figures/plot5.png)
+![Result](./figures/plot6.png)
+![Result](./figures/plot7.png)

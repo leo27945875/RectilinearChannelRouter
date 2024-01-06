@@ -98,7 +98,6 @@ void RectilinearChannelRouter::readFromFile(const std::string& inputFilename){
                 nowPosition, 
                 (upperTrunk = makeNewTrunk(terminalUpper, nowPosition, -1, false))
             };
-            (*nowUpperEdge)->terminalCountMap[upperTrunk]++;
         }
         if (isLowerTerminal){
             if (terminalHeadMap.count(terminalLower)){
@@ -111,7 +110,6 @@ void RectilinearChannelRouter::readFromFile(const std::string& inputFilename){
                 nowPosition, 
                 (lowerTrunk = makeNewTrunk(terminalLower, nowPosition, -1, false))
             };
-            (*nowLowerEdge)->terminalCountMap[lowerTrunk]++;
         }
         if (isUpperTerminal && isLowerTerminal){
             m_positiveVCG[upperTrunk].insert(lowerTrunk);
@@ -160,14 +158,14 @@ void RectilinearChannelRouter::outputToFile(const std::string& outputFilename){
     file << "Channel density: " << m_additionTrack << std::endl;
     for (int net = 1; net <= m_trunkNumberMap.size(); net++){
         file << "Net " << net << std::endl;
-        std::vector<int> doglegs;
-        for (const Trunk* trunk : m_trunkNumberMap[net]){
+        int n = m_trunkNumberMap[net].size();
+        for (int i = 0; i < n; i++){
+            const Trunk* trunk = m_trunkNumberMap[net][i];
             std::string trunkName = (trunk->track->isAddition())? trunk->track->getName(m_additionTrack) : trunk->track->getName();
             file << trunkName << " " << trunk->start << " " << trunk->end << std::endl;
-            doglegs.push_back(trunk->end);
+            if (i != 0)
+                file << "Dogleg " << trunk->start << std::endl;
         }
-        for (int i = 0; i < doglegs.size() - 1; i++)
-            file << "Dogleg " << doglegs[i] << std::endl;
     }
     file.close();
     END_LINE

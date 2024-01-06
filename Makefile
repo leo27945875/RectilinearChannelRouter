@@ -24,7 +24,6 @@ clean:
 
 test:
 	@./${LAB} data/input${FILE_NUM}.in data/output${FILE_NUM}.out
-	@make plot
 
 check:
 	@./SolutionChecker data/input${FILE_NUM}.in data/output${FILE_NUM}.out
