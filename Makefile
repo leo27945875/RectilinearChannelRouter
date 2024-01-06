@@ -40,3 +40,8 @@ push:
 
 gen:
 	@python3 generator.py
+
+run:
+	make test
+	make check
+	make plot

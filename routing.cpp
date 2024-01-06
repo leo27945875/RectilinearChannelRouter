@@ -161,7 +161,12 @@ void RectilinearChannelRouter::outputToFile(const std::string& outputFilename){
         int n = m_trunkNumberMap[net].size();
         for (int i = 0; i < n; i++){
             const Trunk* trunk = m_trunkNumberMap[net][i];
-            std::string trunkName = (trunk->track->isAddition())? trunk->track->getName(m_additionTrack) : trunk->track->getName();
+            std::string trunkName = (trunk->track->isAddition())? trunk->track->getName() : trunk->track->getName();
+            if (m_isOutputBottomUp)
+                trunkName = trunk->track->getName();
+            else
+                trunkName = (trunk->track->isAddition())? trunk->track->getName(m_additionTrack) : trunk->track->getName();
+
             file << trunkName << " " << trunk->start << " " << trunk->end << std::endl;
             if (i != 0)
                 file << "Dogleg " << trunk->start << std::endl;
@@ -178,10 +183,37 @@ void RectilinearChannelRouter::run(){
     for (int l = m_lowerEdges.size() - 1; l > 0; l--)
         routeTrack(m_negativeVCG, m_positiveVCG, m_lowerEdges[l], m_lowerEdges[l - 1]->track);
     
-    while (!m_positiveVCG.empty()){
-        routeTrack(m_positiveVCG, m_negativeVCG, makeNewTrack("C", m_additionTrack));
-        m_additionTrack++;
+    int nAdditionTrackTopDown = 0, nAdditionTrackBottomUp = 0;
+    std::vector<const Track*> trackRecord;
+    DirectedGraph pg; 
+    DirectedGraph ng;
+
+    pg = m_negativeVCG; ng = m_positiveVCG;
+    while (!pg.empty()){
+        nAdditionTrackBottomUp++;
+        routeTrack(pg, ng, makeNewTrack("C", nAdditionTrackBottomUp));
     }
+    
+    for (const Trunk* trunk : m_trunks)
+        trackRecord.push_back(trunk->track);
+
+    pg = m_positiveVCG; ng = m_negativeVCG;
+    while (!pg.empty()){
+        routeTrack(pg, ng, makeNewTrack("C", nAdditionTrackTopDown));
+        nAdditionTrackTopDown++;
+    }
+
+    if (nAdditionTrackBottomUp < nAdditionTrackTopDown){
+        m_additionTrack    = nAdditionTrackBottomUp;
+        m_isOutputBottomUp = true;
+        for (int i = 0; i < m_trunks.size(); i++)
+            m_trunks[i]->track = trackRecord[i];
+
+    } else {
+        m_additionTrack    = nAdditionTrackTopDown;
+        m_isOutputBottomUp = false;
+    }
+
 }
 
 void RectilinearChannelRouter::routeTrack(DirectedGraph& positiveVCG, DirectedGraph& negativeVCG, const Edge* edge, const Track* track){

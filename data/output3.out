@@ -1,55 +1,55 @@
-Channel density: 14
+Channel density: 13
 Net 1
-C3 4 9
-C1 9 11
+C8 4 9
+C2 9 11
 Dogleg 9
-C1 11 14
+C2 11 14
 Dogleg 11
 Net 2
-C14 2 5
-C14 5 8
+C5 2 5
+C11 5 8
 Dogleg 5
 C11 8 22
 Dogleg 8
-C11 22 25
+C4 22 25
 Dogleg 22
-C12 25 29
+C4 25 29
 Dogleg 25
 Net 3
-C10 6 10
-C14 10 13
+C13 6 10
+C6 10 13
 Dogleg 10
-C14 13 14
+C6 13 14
 Dogleg 13
-C14 14 15
+C6 14 15
 Dogleg 14
-C14 15 22
+C13 15 22
 Dogleg 15
 Net 4
-C12 0 19
+C1 0 19
 Net 5
-C8 1 6
-C8 6 17
+C2 1 6
+C12 6 17
 Dogleg 6
-C10 17 23
+C12 17 23
 Dogleg 17
 Net 6
-C5 12 17
-C7 17 18
+C10 12 17
+C2 17 18
 Dogleg 17
-C9 18 21
+C2 18 21
 Dogleg 18
-C9 21 23
+C2 21 23
 Dogleg 21
-C9 23 25
+C2 23 25
 Dogleg 23
 Net 7
-C13 2 18
-C13 18 19
+C4 2 18
+C3 18 19
 Dogleg 18
-C13 19 20
+C3 19 20
 Dogleg 19
-C13 20 28
+C3 20 28
 Dogleg 20
 T0 28 29
 Dogleg 28
@@ -57,33 +57,33 @@ Net 8
 B0 0 3
 C6 3 7
 Dogleg 3
-C6 7 9
+C9 7 9
 Dogleg 7
-C4 9 12
+C9 9 12
 Dogleg 9
-C4 12 26
+C7 12 26
 Dogleg 12
 Net 9
-C9 1 10
+C3 1 10
 Net 10
-C11 3 7
-C7 7 8
+C10 3 7
+C10 7 8
 Dogleg 7
-C7 8 16
+C5 8 16
 Dogleg 8
 T0 16 21
 Dogleg 16
 T0 21 27
 Dogleg 21
 Net 11
-C2 4 11
-C6 11 16
+C7 4 11
+C3 11 16
 Dogleg 11
 B0 16 28
 Dogleg 16
 Net 12
-C12 20 24
-C14 24 26
+C1 20 24
+C8 24 26
 Dogleg 24
-C14 26 27
+C8 26 27
 Dogleg 26

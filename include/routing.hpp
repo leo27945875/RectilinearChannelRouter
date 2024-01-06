@@ -15,7 +15,9 @@ public:
     typedef std::unordered_map<int, std::vector<Trunk*>>           TrunkNumberMap;
 
 public:
-    int                 m_additionTrack = 0;
+    int                 m_additionTrack    = 0;
+    bool                m_isOutputBottomUp = false;
+
     std::vector<Trunk*> m_trunks;
     std::vector<Track*> m_tracks;
     std::vector<Edge*>  m_upperEdges;
